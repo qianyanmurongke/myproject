@@ -1,0 +1,39 @@
+[#escape x as (x)!?html] 
+[#if (pagedList.content?size)<=0] 
+<img src="_files/img/nothing.png" style="width: 100%;margin-top: 50px;" /> 
+[/#if]
+[#if (pagedList.content?size)>0] 
+[#list listdays as days]
+[#if (days.datetime?string("yyyy-MM-dd"))=(today?string("yyyy-MM-dd"))]
+<h2>今日</h2>
+[#elseif (days.datetime?string("yyyy-MM-dd"))=(yesterday?string("yyyy-MM-dd"))]
+<h2>昨日</h2>
+[#else]
+<h2>${days.datetime}</h2>
+[/#if]
+<div class="clearfix"></div>
+<ul >
+	[#list pagedList.content as bean]
+	[#if (days.datetime?string("yyyy-MM-dd"))=(bean.accessTime?string("yyyy-MM-dd"))]
+	<li id="access">
+		<div class="name">
+			<h3>${bean.user.realName!}</h3>
+			<span>${bean.accessTime?string("HH:mm:ss")}</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="location">
+			<img src="_files/img/dd.png">
+			<span>${bean.door.doorName!}</span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</li>
+	[/#if]
+	[/#list]
+</ul>
+[/#list]
+[/#if]
+<script>
+	totalpages = "${pagedList.totalPages}";
+</script>
+[/#escape]

@@ -1,0 +1,117 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8" />
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta http-equiv="Expires" content="-1">
+		<meta name="wap-font-scale" content="no">
+		<title>用户登录_校园门禁</title>
+		<link rel="stylesheet" type="text/css" href="_files/mui/css/mui.min.css" />
+		<link rel="stylesheet" href="_files/style/zzsc.css" />
+	</head>
+	<body>
+		<div class="box">
+			<div class="demo form-bg">
+				<div class="row">
+					<div class="f-dneglu">
+						<div class="logo"><img src="_files/img/login/logo.png"></div>
+					</div>
+					<form id="validForm" action="${ctx}/login" method="post" class="form-horizontal" autocomplete="off">
+						<input type="hidden" name="fallbackUrl" value="${fallbackUrl!Param.fallbackUrl}" />
+						<input type="checkbox" id="rememberMe" name="rememberMe" style="vertical-align:middle;display: none;" checked="checked" />
+						<!--账号登录-->
+						<div class="from-box">
+							<div class="form-group">
+								<input type="text" class="form-control" id="username" name="username" value="${username!}" placeholder="请输入用户名">
+								<div class="clearfix"></div>
+								<!--<i class="fa fa-user"></i>-->
+							</div>
+							<div class="clearfix"></div>
+							<div class="form-group help">
+								<input type="password" class="form-control"  value="" id="password" name="password" placeholder="请输入密码">
+								<div class="clearfix"></div>
+								<!--<i class="fa fa-lock"></i>-->
+							</div>
+							<div class="clearfix"></div>
+							<div class="form-group help">
+								<input type="text" class="form-control yzm" id="captcha" name="captcha"  placeholder="请输入验证码">
+								<div  style="    background: #fff;float: right;height: 1.3rem;border-radius: 5rem;overflow: hidden;width: 3.2rem;"><img style="width: 100%;" src="${ctx}/captcha" onclick="this.src='${ctx}/captcha?d='+new Date()*1;$('#captcha').focus();"></div>
+								<div class="clearfix"></div>
+
+							</div>
+							<div class="clearfix"></div>
+
+							<div class="btn">
+
+								<button type="submit" id="btnSubmit">登录</button>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<script type="text/javascript" src="_files/js/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="_files/mui/js/mui.min.js"></script>
+
+		<script type="text/javascript">
+			(function() {
+				function w() {
+					var r = document.documentElement;
+					var a = r.getBoundingClientRect().width; //获取当前设备的宽度  
+					if(a > 1080) { //720不固定，根据设计稿的宽度定  
+						a = 1080;
+					}
+					rem = a / 10.8;
+					r.style.fontSize = rem + "px"
+				}
+				w();
+				window.addEventListener("resize", function() { //监听横竖屏切换  
+					w()
+				}, false);
+			})();
+			document.onkeydown = function(e) {
+				var ev = document.all ? window.event : e;
+				if(ev.keyCode == 13) {
+					$("#btnSubmit").click();
+				}
+			};
+			$("#btnSubmit").click(function() {
+
+				if($("#username").val() == "") {
+					mui.alert("请输入手机号码！", "登录失败");
+					return false;
+				}
+				mui("#btnSubmit").button('loading');
+
+				$("#validForm").submit();
+				return false;
+			});
+
+			[#if shiroLoginFailure??]
+			[#if shiroLoginFailure == 'com.course.common.security.IncorrectCaptchaException']
+			mui.alert("验证码输入有误，请重新输入！", "登录失败");
+			[#elseif shiroLoginFailure == 'com.course.common.security.CaptchaRequiredException']
+			mui.alert("验证码输入有误，请重新输入！", "登录失败");
+			[#elseif shiroLoginFailure == 'org.apache.shiro.authc.UnknownAccountException']
+			mui.alert("用户名或密码错误！ ", "登录失败");
+			[#elseif shiroLoginFailure == 'org.apache.shiro.authc.LockedAccountException']
+			mui.alert("此用户被锁定！", "登录失败");
+			[#elseif shiroLoginFailure == 'com.course.common.security.UnactivatedAccountException']
+			mui.alert("此用户未激活！ ", "登录失败");
+			[#elseif shiroLoginFailure == 'org.apache.shiro.authc.IncorrectCredentialsException']
+			mui.alert("用户名或密码错误！ ", "登录失败");
+			[#else]
+			mui.alert("用户名或密码错误！", "登录失败");
+			[/#if]
+			mui("#btnSubmit").button('reset');
+			[/#if]
+		</script>
+	</body>
+</html>
+[/#escape]

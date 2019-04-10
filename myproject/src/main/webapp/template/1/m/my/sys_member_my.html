@@ -1,0 +1,257 @@
+[#escape x as (x)!?html]
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8" />
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta http-equiv="Expires" content="-1">
+		<meta name="wap-font-scale" content="no">
+		<title>校园门禁</title>
+		<link rel="stylesheet" type="text/css" href="_files/style/css.css">
+		<link rel="stylesheet" type="text/css" href="_files/mui/css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="_files/mui/plugin/picker/css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="_files/mui/plugin/picker/css/mui.poppicker.css" />
+		<script>
+			(function() {
+				function w() {
+					var r = document.documentElement;
+					var a = r.getBoundingClientRect().width; //获取当前设备的宽度  
+					if(a > 1080) { //720不固定，根据设计稿的宽度定  
+						a = 1080;
+					}
+					rem = a / 10.8;
+					r.style.fontSize = rem + "px"
+				}
+				w();
+				window.addEventListener("resize", function() { //监听横竖屏切换  
+					w()
+				}, false);
+			})();
+		</script>
+	</head>
+
+	<body>
+		<div class="h_top">
+			<button id="lbtnAccess" style="color:#fff" data-schoolplaceid=""><h2>请选择场地名称</h2><img src="_files/img/home_jt.png"></button>
+		</div>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="background: #fff;">
+			<div class="mui-scroll" >
+				<div style="height: 5.1rem;"></div>
+				<div class="h_list">
+					<ul id="recordlist">
+						[#list pagedList.content as bean]
+						<li class="setIcon">
+							<h2>${bean.doorName}</h2> [#if bean.online==0]
+							<p>关闭</p>
+							<img src="_files/img/outline.png"> [#else] [#if bean.status==0]
+							<p>关闭</p>
+							<img src="_files/img/suo.png">
+							<div class="kai" data-id="${bean.id}" data-lockaddr="${bean.pkid}"></div>
+							[#else]
+							<p>常开</p>
+							<img src="_files/img/suo1.png">
+							<div class="guan" data-id="${bean.id}" data-lockaddr="${bean.pkid}"></div>
+							[/#if] [/#if]
+						</li>
+						[/#list]
+
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="pop" hidden="hidden" id="open">
+			<div class="pop_1">
+				<ul>
+					
+					<li data-status="0" class="open1">遇人打开</li>
+					<li data-status="3" class="open2">一直打开</li>
+				</ul>
+				<div class="qx">
+					<img src="_files/img/qx.png">
+				</div>
+				<input hidden="hidden" id="accessid" name="accessid" />
+				<input hidden="hidden" id="lockaddr" name="lockaddr" />
+			</div>
+		</div>
+		[#include 'inc_footer.html'/]
+
+		<script type="text/javascript" src="_files/js/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="_files/mui/js/mui.min.js"></script>
+		<script type="text/javascript" src="_files/mui/plugin/picker/js/mui.picker.js"></script>
+		<script type="text/javascript" src="_files/mui/plugin/picker/js/mui.poppicker.js"></script>
+
+		<script type="text/javascript">
+			//判断是否是微信浏览器的函数
+			function isWeiXin() {
+				//window.navigator.userAgent属性包含了浏览器类型、版本、操作系统类型、浏览器引擎类型等信息，这个属性可以用来判断浏览器类型
+				var ua = window.navigator.userAgent.toLowerCase();
+				//通过正则表达式匹配ua中是否含有MicroMessenger字符串
+				if(ua.match(/MicroMessenger/i) == 'micromessenger') {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			$(function() {
+				if(isWeiXin()) {
+					pushHistory();
+					window.addEventListener("popstate", function(e) {
+						var btnArray = ['退出', '继续待着'];
+						mui.confirm('亲！不能多待一会，陪陪我', '提示!', btnArray, function(e) {
+							if(e.index == 0) {
+								WeixinJSBridge.call('closeWindow');
+							}
+						});
+						pushHistory();
+					}, false);
+				}
+
+			});
+
+			function pushHistory() {
+				var state = {
+					title: "title",
+					url: "#"
+				};
+				window.history.pushState(state, "title", "#");
+			}
+
+			mui.init({
+				swipeBack: true,
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						callback: pulldownRefresh
+					},
+					up: {
+						auto: false,
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			var totalpages = parseInt("${pagedList.totalPages}");
+			var page = 1;
+
+			function pullupRefresh() {
+					page++;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((page > totalpages));
+					if(!(page > totalpages)) {
+						$.get("${ctx}/my?isjson=true&page=" + page+"&schoolplaceid=" + $("#lbtnAccess").data("schoolplaceid"), function(result) {
+							if($.trim(result) == "") {
+								mui.toast("亲，别扯了");
+							} else {
+								$("#recordlist").append(result);
+							}
+						}).error(function() {
+							mui.toast("网络异常,请稍后操作");
+						});
+					}else{
+						page=1;
+					}
+
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				    page=1;
+					$.get("${ctx}/my?isjson=true&page=1&schoolplaceid=" + $("#lbtnAccess").data("schoolplaceid"), function(result) {
+						if($.trim(result) == "") {
+							mui.toast("亲，别扯了");
+						} else {
+							$("#recordlist").html(result);
+						}
+					}).error(function() {
+						mui.toast("网络异常,请稍后操作");
+					});
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+			}
+
+			mui("#recordlist").on('tap', '.kai', function(event) {
+				$("#open").show();
+				$("#accessid").val($(this).data("id"));
+				$("#lockaddr").val($(this).data("lockaddr"));
+			});
+
+			mui("#open").on('tap', '.qx', function(event) {
+				$("#open").hide();
+			});
+			
+			mui("#recordlist").on('tap', '.guan', function(event) {
+				$("#open").show();
+				$("#accessid").val($(this).data("id"));
+				$("#lockaddr").val($(this).data("lockaddr"));
+			});
+
+			mui("#open").on('tap', 'li', function(event) {
+				var param = {};
+				param["status"] = $(this).data("status");
+				param["accessid"] = $("#accessid").val();
+				param["lockaddr"] = $("#lockaddr").val();
+				param["responseType"] = 'ajax';
+				$.post("${ctx}/my/copenandclose", param, function(result) {
+					if(result.openresult == 0) {
+						checktasksucc(result.taskId,result.status);
+					} else {
+						mui.toast(result.messages);
+					}
+				}, "json").error(function() {
+					mui.toast("网络异常,请稍后操作");
+				});
+				$("#open").hide();
+			});
+			
+	    	function checktasksucc(taskId,status){
+	    		$.post("${ctx}/my/checktasksucc", {
+	    			"taskid":taskId,
+	    			"id":$("#accessid").val(),
+	    			"status":status,
+	    			"responseType":"ajax"
+	    		}, function(result) {
+   						if(result.checkresult == 0) {
+	    					mui.toast("开门成功");
+		    				mui.alert('操作成功', '提示', function() {
+								window.location = "${ctx}/my";
+							});
+	    				}else{
+	    				   mui.toast("开门失败！");
+	    				}
+				}, "json").error(function() {
+					mui.toast("网络异常,请稍后操作");
+				});
+	    		return false;
+	    	}
+			var GenderPicker = new mui.PopPicker();
+			GenderPicker.setData();
+			GenderPicker.setData([{value:"",text:"所有"},
+				        [#list schoolplacelist as schoolplace] {
+							value: '${schoolplace.id}',
+							text: "${schoolplace.placeName}"
+						},
+						[/#list]]);
+			var showGenderPickerButton = document.getElementById('lbtnAccess');
+			showGenderPickerButton.addEventListener('tap', function(event) {
+				GenderPicker.show(function(items) {
+					$("#lbtnAccess").text(items[0].text);
+					$("#lbtnAccess").data("schoolplaceid", items[0].value);
+					    mui('.mui-scroll-wrapper').scroll().scrollTo(0,0,10);//100毫秒滚动到顶
+						pulldownRefresh();
+				});
+				return false;
+			}, false);
+		</script>
+
+	</body>
+
+</html>
+[/#escape]

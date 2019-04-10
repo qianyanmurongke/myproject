@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+	default-lazy-init="true">	
+
+	<bean id="Anchor" class="com.course.common.freemarker.AnchorDirective" />
+  <bean id="Image" class="com.course.common.freemarker.ImageAnchorDirective" />
+  <!-- <bean id="AddParam" class="com.course.common.freemarker.AddParamDirective" /> -->
+	
+	<bean id="processed" class="com.course.common.freemarker.ProcessedMethod" />
+	<bean id="substring" class="com.course.common.freemarker.SubstringMethod" />
+	<bean id="bbcode" class="com.course.common.freemarker.BBCodeMethod" />
+  <bean id="paging" class="com.course.common.freemarker.PagingMethod" />
+  <bean id="addParam" class="com.course.common.freemarker.AddParamMethod" />
+  <bean id="prettyTime" class="com.course.common.freemarker.PrettyTimeMethod" />
+	<!-- <bean id="anchor" class="com.course.common.freemarker.AnchorMethod" /> -->
+	<bean id="numberToChinese" class="com.course.common.freemarker.NumberToChineseMethod" />
+	
+	<bean id="SQLQuery" class="com.course.core.web.directive.SQLQueryDirective" />
+	<!-- <bean id="SQLUpdate" class="com.course.core.web.directive.SQLUpdateDirective" /> -->
+		
+	<bean id="CmsSite" class="com.course.core.web.directive.SiteDirective" />
+	<bean id="CmsSiteList" class="com.course.core.web.directive.SiteListDirective" />
+	<bean id="CmsNode" class="com.course.core.web.directive.NodeDirective" />
+	<bean id="CmsNodeList" class="com.course.core.web.directive.NodeListDirective" />
+	<bean id="CmsNodePage" class="com.course.core.web.directive.NodePageDirective" />
+	<bean id="CmsInfo" class="com.course.core.web.directive.InfoDirective" />
+	<bean id="CmsInfoNext" class="com.course.core.web.directive.InfoNextDirective" />
+	<bean id="CmsInfoPrev" class="com.course.core.web.directive.InfoPrevDirective" />
+	<bean id="CmsInfoList" class="com.course.core.web.directive.InfoListDirective" />
+	<bean id="CmsInfoPage" class="com.course.core.web.directive.InfoPageDirective" />
+	<bean id="CmsInfoFulltextList" class="com.course.core.web.directive.InfoFulltextListDirective" />
+	<bean id="CmsInfoFulltextPage" class="com.course.core.web.directive.InfoFulltextPageDirective" />
+	<bean id="CmsTagList" class="com.course.core.web.directive.TagListDirective" />
+	<bean id="CmsTagPage" class="com.course.core.web.directive.TagPageDirective" />
+	<bean id="CmsInboxList" class="com.course.core.web.directive.InboxListDirective" />
+	<bean id="CmsInboxPage" class="com.course.core.web.directive.InboxPageDirective" />
+	
+	<bean id="cmsGetNode" class="com.course.core.web.method.GetNodeMethod" />
+	<bean id="cmsGetInfo" class="com.course.core.web.method.GetInfoMethod" />
+
+</beans>

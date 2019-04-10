@@ -1,0 +1,138 @@
+[#escape x as (x)!?html]
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8" />
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta http-equiv="Expires" content="-1">
+		<meta name="wap-font-scale" content="no">
+		<title>我的</title>
+		<link rel="stylesheet" type="text/css" href="_files/style/css.css">
+		<link rel="stylesheet" type="text/css" href="_files/mui/css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="_files/mui/plugin/picker/css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="_files/mui/plugin/picker/css/mui.poppicker.css" />		
+		<script>
+			(function() {
+				function w() {
+					var r = document.documentElement;
+					var a = r.getBoundingClientRect().width; //获取当前设备的宽度  
+					if(a > 1080) { //720不固定，根据设计稿的宽度定  
+						a = 1080;
+					}
+					rem = a / 10.8;
+					r.style.fontSize = rem + "px"
+				}
+				w();
+				window.addEventListener("resize", function() { //监听横竖屏切换  
+					w()
+				}, false);
+			})();
+		</script>
+	</head>
+
+	<body style="background:  #f0eff5;color: #333;">
+		<div class="my_list">
+			<h2>基础信息</h2>
+			<ul>
+				<li>
+					<h3>姓名</h3>
+					<span>${user.realName!}</span>
+					<div class="clearfix"></div>
+				</li>
+				<div class="clearfix"></div>
+				<li id="lbtnGender">
+					<h3 >性别</h3>
+					<img src="_files/img/jt.png">
+					<span>[#if user.gender??][#if user.gender=="M"]男[#else]女[/#if][#else]保密[/#if]</span>
+
+					<div class="clearfix"></div>
+				</li>
+				<div class="clearfix"></div>
+				<li>
+					<h3>学校</h3>
+					<span>${user.org.name!}</span>
+					<div class="clearfix"></div>
+				</li>
+				<div class="clearfix"></div>
+				<li style="border: none;">
+					<h3>部门</h3>
+					<span>${user.departmentName!}</span>
+					<div class="clearfix"></div>
+				</li>
+				<div class="clearfix"></div>
+			</ul>
+		</div>
+		<div class="my_list">
+			<h2>账号信息</h2>
+			<ul>
+				<li>
+					<h3>账号</h3>
+					<span>${user.username!}</span>
+					<div class="clearfix"></div>
+				</li>
+				<div class="clearfix"></div>
+				<li>
+					<h3>手机号码</h3>
+					<span>${user.mobile!}</span>
+					<div class="clearfix"></div>
+				</li>
+				<div class="clearfix"></div>
+				<li onclick="window.location='/my/password'" style="display: none;">
+					<h3>修改密码</h3>
+					<img src="_files/img/jt.png">
+
+					<div class="clearfix"></div>
+				</li>
+				<div class="clearfix"></div>
+
+			</ul>
+		</div>
+		<div class="tc" style="display: none;">
+			<span><a href="${ctx}/logout" style="color: #fff;">退出登录</a></span>
+		</div>
+
+		[#include 'inc_footer.html'/]
+		<script type="text/javascript" src="_files/js/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="_files/mui/js/mui.min.js"></script>
+		<script type="text/javascript" src="_files/mui/plugin/picker/js/mui.picker.js"></script>
+		<script type="text/javascript" src="_files/mui/plugin/picker/js/mui.poppicker.js"></script>
+		<script>
+			var GenderPicker = new mui.PopPicker();
+			GenderPicker.setData([{
+				value: 'M',
+				text: '男'
+			}, {
+				value: 'F',
+				text: '女'
+			}]);
+			var showGenderPickerButton = document.getElementById('lbtnGender');
+			showGenderPickerButton.addEventListener('tap', function(event) {
+				GenderPicker.show(function(items) {
+					$("#lbtnGender span").text(items[0].text);
+					$("#lbtnGender span").data("gender", items[0].value);
+					//返回 false 可以阻止选择框的关闭
+					//return false;
+
+					$.post("${ctx}/my/account", {
+						"responseType": "ajax",
+						"gender": items[0].value
+					}, function(result) {
+						if(result.status == 1) {
+							mui.toast(result.messages);
+						}
+					}, "json").error(function() {
+						mui.toast("网络异常,请稍后操作");
+					});
+				});
+				return false;
+			}, false);
+		</script>
+	</body>
+
+</html>
+
+[/#escape]

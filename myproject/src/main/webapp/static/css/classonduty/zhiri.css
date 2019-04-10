@@ -1,0 +1,116 @@
+@charset "utf-8";
+* {
+	text-decoration: none;
+	list-style: none;
+}
+
+ul,
+li,
+dl,
+dd,
+dt,
+p,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5 {
+	padding: 0;
+	margin: 0;
+}
+
+span {
+	font-size: 16px;
+}
+
+.zr {
+	width: 1000px;
+	margin: auto;
+}
+
+.zr ul {
+	float: left;
+	width: 200px;
+}
+
+.zr ul h2 {
+	text-align: center;
+	font-size: 18px;
+	color: #666;
+	border-bottom: 1px solid #eee;
+	line-height: 50px;
+}
+
+.selectClass {
+	display: block;
+	width: 150px;
+	line-height: 40px;
+	margin: auto;
+	border-radius: 50px;
+	border: 1px solid #ccc;
+	margin-top: 10px;
+	background: url(img/add.png) no-repeat 10px;
+	background-size: 23%;
+	font-size: 18px;
+	color: #666;
+	cursor: pointer;
+	text-align: center;
+}
+
+.selectClass-d {
+	display: block;
+	width: 150px;
+	line-height: 40px;
+	margin: auto;
+	border-radius: 50px;
+	border: 1px solid #eee;
+	margin-top: 10px;
+	font-size: 18px;
+	color: #999;
+	cursor: pointer;
+	text-align: left;
+	padding-left: 20px;
+    position: relative;
+}
+.selectLeader{
+	display: none;
+}
+.selectClass-d1 {    
+	background: url(img/close.png) no-repeat right;
+    background-size: 40%;
+    padding: 35px;
+    position: absolute;
+    right: 6px;
+    top: -14px;
+}
+
+
+.dz {
+	background: url(img/dz.png) no-repeat 3px;
+	background-size: 17%;
+}
+
+.selectClass:hover {
+	background: url(img/add-1.png) no-repeat 10px;
+	background-size: 23%;
+}
+
+.selectClass-d1:hover {
+	background: url(img/close-1.png) no-repeat right;
+    background-size: 40%;
+    padding: 35px;
+    position: absolute;
+    right: 6px;
+    top: -14px;
+}
+
+.selectClass-d:hover .selectLeader{
+	display: block;
+	background: url(img/dz1.png) no-repeat;
+    background-size: 50%;
+    padding: 35px;
+    position: absolute;
+    left: -23px;
+    top: 8px;
+}

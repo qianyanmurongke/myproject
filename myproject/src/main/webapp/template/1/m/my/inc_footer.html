@@ -1,0 +1,24 @@
+ [#escape x as (x)!?html]
+<div style="height: 2.5rem;"></div>
+<div class="bottom">
+	<ul>
+		<li [#if menutype??][#if menutype=="my"  ] class="xz" [/#if][/#if] onclick="window.location='${ctx}/my';">
+			<img src="_files/img/home[#if menutype??][#if menutype=="my" ]1[/#if][/#if].png">
+			<p>首页</p>
+		</li>
+		<li [#if menutype??][#if menutype=="accessrecord" ] class="xz" [/#if][/#if] onclick="window.location='${ctx}/my/accessrecord';">
+			<img src="_files/img/recording[#if menutype??][#if menutype=="accessrecord" ]1[/#if][/#if].png">
+			<p>门禁记录</p>
+		</li>
+		<li [#if menutype??][#if menutype=="profile" ] class="xz" [/#if][/#if] onclick="window.location='${ctx}/my/profile';">
+			<img src="_files/img/Setting[#if menutype??][#if menutype=="profile" ]1[/#if][/#if].png">
+			<p>我的</p>
+		</li>
+		<div class="clearfix"></div>
+	</ul>
+	
+</div>
+<script type="text/javascript">
+	document.write(unescape("%3Cscript src='${ctx}/visit_log%3Furl%3D") + document.location.href + unescape("%26referrer%3D") + document.referrer + unescape("' type='text/javascript'%3E%3C/script%3E"));
+</script>
+[/#escape]

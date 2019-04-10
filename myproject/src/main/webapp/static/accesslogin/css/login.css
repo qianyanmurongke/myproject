@@ -1,0 +1,62 @@
+body, html { font-size: 100%; 	padding: 0; margin: 0;}
+
+/* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+body{
+	background:url(../img/bg.png) center no-repeat; width: 100%; height: 920px;}
+a{ color:#666;outline: none;text-decoration: none;-webkit-transition: 0.2s;transition: 0.2s;}
+a:hover,a:focus{color:#74777b;text-decoration: none;}
+.logo img{width: 320px; padding-bottom: 20px;}
+.box{width: 1200px;margin: auto;}
+.form-bg{width: 100%;margin: auto;}
+.row{width: 450px;text-align: center;float: right; margin-top:80px;}
+.row p{padding-bottom: 20px;}
+.form-horizontal{background:url(../img/bg1.png) no-repeat;height: 420px;width: 450px;cursor:pointer;}
+.f-dneglu{padding-top: 20px; padding-bottom: 40px;}
+.f-dneglu a{padding: 8px 10px; font-size: 30px; font-family: "微软雅黑";}
+.f-dneglu a{border-bottom: 1px solid #61aad9; color:#61aad9;}
+.form-group{padding-bottom: 5px; padding-top: 5px;}
+.from-box{width: 345px; margin: auto;}
+.form-group img{float: left;}
+.form-group input{width: 301px;height: 44px;border: none; float: left; padding-left:16px;font-size: 14px;}
+.form-group .yzm{width: 100px;}
+.form-group .yzm1{padding-left: 10px;}
+
+.btn{ padding-bottom: 24px;}
+.btn a{float: left;color:#61aad9; font-size: 14px; margin-bottom: 20px;}
+.btn button{float: left; width: 344px; height: 43px; color: #fff; background: #61aad9; border: none; font-size: 14px;cursor:pointer;box-shadow: 1px 1px 4px #999;}
+.btn button:hover{box-shadow: 2px 4px 8px #999;}
+
+.qita{padding-top: 24px;}
+.qita a{margin: 0 24px; font-family: "微软雅黑"; font-size: 14px;}
+.qita a:hover{color: #61aad9;}
+.qita img{padding-right: 4px;}
+
+
+.bottom{text-align: center; padding-top: 250px;}
+.bottom a{color: #fff; font-size: 14px;}
+
+
+.erweima img{width: 240px;}
+.sys{line-height: 20px; padding-top: 20px; height: 30px; line-height: 30px; padding-left: 100px;}
+.sys img{width: 30px; float: left;cursor:pointer;}
+.sys a{font-size: 20px;color: #777; padding-left: 7px; font-family: "微软雅黑"; float: left; }
+

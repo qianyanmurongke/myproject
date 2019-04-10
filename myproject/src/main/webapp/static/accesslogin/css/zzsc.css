@@ -1,0 +1,108 @@
+body, html { font-size: 100%; 	padding: 0; margin: 0;}
+
+/* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+html {font-size:625%;}
+
+body,html{width: 100%;height: 100%!important;}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Microsoft YaHei;
+    font-size:16px;
+    font-size: .16rem;
+    background-size: cover;
+    background-attachment: fixed;
+}
+span{
+	font-size: 14px;
+	font-size: 0.14rem;
+}
+body{
+	background:url(../img/bg.png) center no-repeat; background-size: 100% 100%;}
+a{ color:#666;outline: none;text-decoration: none;-webkit-transition: 0.2s;transition: 0.2s;}
+a:hover,a:focus{color:#74777b;text-decoration: none;}
+
+
+
+
+.f-dneglu{
+	width: 100%;
+	border-bottom: 1px solid #a7e8e3;
+	height: 1.04rem;
+	text-align: center;
+	padding-top: .16rem;
+	margin-bottom: .27rem;
+}
+.logo img{width: 4.26rem;}
+.top{
+	width: 100%;
+	text-align: center;
+	margin-bottom: .16rem;
+}
+.top img{
+	width:  1.69rem;
+}
+
+.box{margin: auto;position: relative;}
+.form-bg{width: 100%;margin: auto;}
+.row{width: 12.63rem;margin: auto;}
+.row p{padding-bottom: .2rem;}
+.form-horizontal{background:url(../img/bg1.png) no-repeat;height: 6.24rem;width: 12.63rem;cursor:pointer; background-size: 100%;}
+
+.form-group1{padding-bottom: .16rem; padding-top: 0rem;}
+.from-box1{width: 3rem; float: right; margin-top: 1.1rem;margin-right: 1.5rem;}
+.dl_top{
+	width: 100%;
+	margin-bottom: .3rem;
+}
+.dl_top img{
+	width: 100%;
+}
+.form-group1 input{
+	width: 3rem;
+	height: .5rem;
+	border: 1px solid #dddddd;
+	border-radius: 1rem;
+	float: left; 
+	padding-left:.3rem;
+	font-size: .14rem;
+	outline:none;
+	color: #000;
+}
+.form-group1 input::-webkit-input-placeholder { /* WebKit browsers */ 
+color: #a8a8a8;
+
+
+}
+
+.btn1{ padding-top: .2rem;}
+
+.btn1 button{ width: 100%; height: .5rem; color: #fff; background: #12c7b3; border: 1px solid #dddddd;border-radius: 1rem; font-size: .19rem;cursor:pointer;outline:none;letter-spacing:.15rem;text-align: center;}
+.btn1 button:hover{ box-shadow: inset 3px 4px 3px 0px rgba(0, 0, 0, 0.2); color: #fff;background: #12c7b3;}
+
+
+.form-group1 .yzm{width: 1.83rem;float: left;}
+.form-group1 .yzm1{width: 1.06rem;height: .5rem; float: right;border-radius: 1rem; overflow: hidden; border: 1px solid #dddddd;}
+
+
+

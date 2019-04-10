@@ -1,0 +1,96 @@
+body, html { font-size: 100%; 	padding: 0; margin: 0;}
+
+/* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+html {font-size:625%;}
+
+body,html{width: 100%;height: 100%;}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Microsoft YaHei;
+    font-size:16px;
+    font-size: .16rem;
+    background-size: cover;
+    background-attachment: fixed;
+}
+span{
+	font-size: 14px;
+	font-size: 0.14rem;
+}
+body{
+	background:url(../img/login/bg.png) top no-repeat; background-size: 100%;}
+a{ color:#666;outline: none;text-decoration: none;-webkit-transition: 0.2s;transition: 0.2s;}
+a:hover,a:focus{color:#74777b;text-decoration: none;}
+.logo{
+	width: 100%;
+	padding-top: 1.2rem;
+}
+.logo img{width:2.35rem; padding-bottom: 00px;margin: auto;}
+.box{margin: auto;position: relative;}
+.form-bg{width: 100%;margin: auto;}
+.row{width: 100%;text-align: center;}
+.row p{padding-bottom: .0rem;}
+.form-horizontal{
+	width: 8.36rem;
+	cursor:pointer;
+	background-size: 100%;
+	
+	margin: auto;
+	margin-top: 2.3rem;
+}
+.f-dneglu{}
+
+
+.form-group{padding-bottom: .15rem; padding-top: 0rem;}
+.from-box{width: 8.36rem; margin: auto;}
+.form-group img{float: right;width: .36rem;margin-right: .3rem;}
+.form-group input{width: 8.36rem;height: 1.3rem;border: none; float: left; padding-left:.5rem;font-size: .28rem;outline:none;color: #999;background: #fff; border-radius: 5rem;font-size: .43rem;}
+
+
+.btn{ padding-top: .6rem;border-top: 1px solid #12c7b3;margin-top: 0rem;}
+
+.btn button{
+	width: 100%;
+	height: 1.3rem;
+	color: #fff;
+	
+	border-radius: 2rem;
+	font-size: .53rem;
+	border: none;
+	cursor:pointer;
+	outline:none;
+	border: 1px solid #15b2a1;
+  background-color: rgb(18, 199, 179);
+  box-shadow: 0px 12px 57px 0px rgba(8, 94, 84, 0.2);
+
+}
+
+
+
+.form-group .yzm{width: 4.8rem;}
+.form-group .yzm1{float: right; width: 2.84rem;}
+.form-group input::-webkit-input-placeholder {
+	color: #ccc;
+}
+
+

@@ -1,0 +1,193 @@
+[#escape x as (x)!?html]
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<title>门禁记录</title>
+		<link rel="stylesheet" type="text/css" href="_files/style/css.css">
+		<link type="text/css" rel="stylesheet" href="_files/mui/css/mui.min.css" />
+	</head>
+	<script>
+		(function() {
+			function w() {
+				var r = document.documentElement;
+				var a = r.getBoundingClientRect().width; //获取当前设备的宽度  
+				if(a > 1080) { //720不固定，根据设计稿的宽度定  
+					a = 1080;
+				}
+				rem = a / 10.8;
+				r.style.fontSize = rem + "px"
+			}
+			w();
+			window.addEventListener("resize", function() { //监听横竖屏切换  
+				w()
+			}, false);
+		})();
+		
+	</script>
+
+	<body style="background: #fff!important;">
+		<div class="top">
+			<div class="search">
+				<div class="input-kw-form">
+					<input type="search" autocomplete="off" id="searchInput" name="baike-search" placeholder="请输入门禁搜索" class="input-kw" onkeyup="enterSearch(event)">
+				</div>
+			</div>
+		</div>
+		
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="background: #fff;">
+			<div class="mui-scroll">
+				<div style="height: 2.3rem;"></div>
+				
+				<div class="list" id="recordlist">
+					[#if (pagedList.content?size)<=0] 
+					<img src="_files/img/nothing.png" style="width: 100%;margin-top: 50px;" /> 
+					[/#if]
+					[#if (pagedList.content?size)>0] 
+					[#list listdays as days]
+					[#if (days.datetime?string("yyyy-MM-dd"))=(today?string("yyyy-MM-dd"))]
+					<h2>今日</h2>
+					[#elseif (days.datetime?string("yyyy-MM-dd"))=(yesterday?string("yyyy-MM-dd"))]
+					<h2>昨日</h2>
+					[#else]
+					<h2>${days.datetime}</h2>
+					[/#if]
+					<div class="clearfix"></div>
+					<ul >
+						[#list pagedList.content as bean]
+						[#if (days.datetime?string("yyyy-MM-dd"))=(bean.accessTime?string("yyyy-MM-dd"))]
+						<li id="access">
+							<div class="name">
+								<h3>${bean.user.realName!}</h3>
+								<span>${bean.accessTime?string("HH:mm:ss")}</span>
+								<div class="clearfix"></div>
+							</div>
+							<div class="location">
+								<img src="_files/img/dd.png">
+								<span>${bean.door.doorName!}</span>
+								<div class="clearfix"></div>
+							</div>
+							<div class="clearfix"></div>
+						</li>
+						[/#if]
+						[/#list]
+					</ul>
+					[/#list]
+					[/#if]
+				</div>				
+				
+
+			</div>
+		</div>
+		[#include 'inc_footer.html'/]
+		<script type="text/javascript" src="_files/js/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="_files/mui/js/mui.min.js"></script>
+		<script>
+			//判断是否是微信浏览器的函数
+			function isWeiXin() {
+				//window.navigator.userAgent属性包含了浏览器类型、版本、操作系统类型、浏览器引擎类型等信息，这个属性可以用来判断浏览器类型
+				var ua = window.navigator.userAgent.toLowerCase();
+				//通过正则表达式匹配ua中是否含有MicroMessenger字符串
+				if(ua.match(/MicroMessenger/i) == 'micromessenger') {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			$(function() {
+				if(isWeiXin()) {
+					pushHistory();
+					window.addEventListener("popstate", function(e) {
+						//WeixinJSBridge.call('closeWindow');
+						window.location = "${ctx}/my";
+					}, false);
+				}
+
+			});
+
+			function pushHistory() {
+				var state = {
+					title: "title",
+					url: "#"
+				};
+				window.history.pushState(state, "title", "#");
+			}
+			mui.init({
+				swipeBack: true,
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						callback: pulldownRefresh
+					},
+					up: {
+						auto: false,
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			var totalpages = parseInt("${pagedList.totalPages}");
+			var page = 1;
+
+			function pullupRefresh() {
+				setTimeout(function() {
+					page++;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((page > totalpages));
+					if(!(page > totalpages)) {
+						$.get("${ctx}/my/accessrecord?isjson=true&page=" + page, function(result) {
+							if($.trim(result) == "") {
+								mui.toast("亲，别扯了");
+							} else {
+								$("#recordlist").append(result);
+							}
+						}).error(function() {
+							mui.toast("网络异常,请稍后操作");
+						});
+					}
+
+				}, 1500);
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					page = 1;
+					$.get("${ctx}/my/accessrecord?isjson=true&page=1", function(result) {
+						if($.trim(result) == "") {
+							mui.toast("亲，别扯了");
+						} else {
+							$("#recordlist").html(result);
+						}
+					}).error(function() {
+						mui.toast("网络异常,请稍后操作");
+					});
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+				}, 1500);
+			}
+			
+		    //搜索
+			function enterSearch(e) {
+				//按Enter键进入查询
+			    if(e.keyCode == 13) {
+					$.get("${ctx}/my/accessrecord?isjson=true&page=1&doorName=" +$("#searchInput").val(),function(result) {
+						if($.trim(result) == "") {
+							mui.toast("亲，别扯了");
+						} else {
+							$("#recordlist").html(result);
+						}
+					}).error(function() {
+						mui.toast("网络异常,请稍后操作");
+					});
+			    }
+			}
+		</script>
+	</body>
+
+</html>
+[/#escape]

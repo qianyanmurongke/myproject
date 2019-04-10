@@ -1,0 +1,235 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8" />
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta http-equiv="Expires" content="-1">
+		<meta name="wap-font-scale" content="no">
+		<title>智慧班牌</title>
+		<link rel="apple-touch-icon" href="_files/img/app.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="_files/img/app.png">
+		<link href="_files/dingtalk_login/css/binding.css" rel="stylesheet" type="text/css">
+		<link href="_files/dingtalk_login/css/bootstrap.min.css" rel="stylesheet">
+		<script>
+			(function() {
+				function w() {
+					var r = document.documentElement;
+					var a = r.getBoundingClientRect().width; //获取当前设备的宽度  
+					if(a > 1080) { //720不固定，根据设计稿的宽度定  
+						a = 1080;
+					}
+					rem = a / 10.8;
+					r.style.fontSize = rem + "px"
+				}
+				w();
+				window.addEventListener("resize", function() { //监听横竖屏切换  
+					w()
+				}, false);
+			})();
+		</script>
+
+	</head>
+
+	<body>
+		<div class="binding">
+			<div class="top">
+				<ul>
+					<li>
+						<img src="_files/dingtalk_login/img/logo1.png">
+					</li>
+					<li>
+						<img style="width: 80%;padding-left: .2rem;padding-top: .5rem" src="_files/dingtalk_login/img/switch.png">
+					</li>
+					<li>
+						<img src="_files/dingtalk_login/img/logo2.png">
+					</li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+			<div class="signin" style="display: none;">
+				<form class="form-signin" role="form">
+					<input type="text" name="username" id="username" class="form-control" placeholder="用户名" autofocus />
+					<input type="password" name="password" id="password" class="form-control" placeholder="密码" />
+					<button class="btn btn-lg btn-warning btn-block" id="btnSubmit" type="button">关联账号</button>
+				</form>
+			</div>
+
+			<div class="yz authlogin">
+				<img src="_files/dingtalk_login/img/1.gif">
+				<span>正在验证中，请稍后...</span>
+			</div>
+			<div class="bottom">
+				<p></p>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="_files/js/jquery/jquery-2.2.3.min.js"></script>
+		<script src="http://g.alicdn.com/dingding/dingtalk-jsapi/2.0.72/dingtalk.open.js"></script>
+		<script type="text/javascript">
+			var DingUserId = '';
+			$("#btnSubmit").click(function() {
+				if(DingUserId == "") {
+					alert("获取授权失败");
+					return false;
+				}
+				$.post("${ctx}/dingtalk/binduser", {
+					"username": $("#username").val(),
+					"dinguserid": DingUserId,
+					"password": $("#password").val(),
+					"responseType": "ajax"
+				}, function(result) {
+					if(result.status == 1) {
+						dd.biz.navigation.setTitle({
+							title: '绑定成功正在跳转',
+							onSuccess: function(data) {},
+							onFail: function(err) {
+								log.e(JSON.stringify(err));
+							}
+						});
+						window.location = "${ctx}/dingtalk/login/" + DingUserId
+					} else {
+						dd.device.notification.alert({
+							message: result.messages[0],
+							title: "绑定失败",
+							buttonName: "收到",
+							onSuccess: function() {},
+							onFail: function(err) {}
+						});
+					}
+
+				}, "json").error(function() {
+					dd.device.notification.alert({
+						message: "网络异常,请稍后操作",
+						title: "提示",
+						buttonName: "收到",
+						onSuccess: function() {},
+						onFail: function(err) {}
+					});
+
+				});
+
+			});
+//			/**
+//			 * _config comes from server-side template. see views/index.jade
+//			 */
+//			dd.config({
+//				agentId: "${agentid}",
+//				corpId: "${corpId}",
+//				timeStamp: "${timeStamp}",
+//				nonceStr: "${nonceStr}",
+//				signature: "${signature}",
+//				jsApiList: ['runtime.info', 'biz.contact.choose',
+//					'device.notification.confirm', 'device.notification.alert',
+//					'device.notification.prompt', 'biz.ding.post',
+//					'biz.util.openLink'
+//				]
+//			});
+
+			dd.error(function(err) {
+
+				alert('失败' + JSON.stringify(err));
+
+				$(".authlogin").hide();
+				$(".signin").show();
+			});
+			dd.ready(function() {
+				dd.biz.navigation.setTitle({
+					title: '正在验证用户',
+					onSuccess: function(data) {},
+					onFail: function(err) {
+						alert(JSON.stringify(err));
+
+					}
+				});
+
+				dd.runtime.permission.requestAuthCode({
+					corpId: "${corpId}",
+					onSuccess: function(info) {
+						$.post("${ctx}/dingtalk/userinfo", {
+							"code": info.code,
+							"responseType": "ajax"
+						}, function(result) {
+							if(result.status == 1) {
+								if(result.dingtalk == 1) {
+									dd.biz.navigation.setTitle({
+										title: '验证成功正在跳转',
+										onSuccess: function(data) {
+											window.location = "${ctx}/dingtalk/login/" + result.dinguserid;
+										},
+										onFail: function(err) {
+											log.e(JSON.stringify(err));
+										}
+									});
+
+								} else if(result.dingtalk == 2) {
+
+									dd.biz.navigation.setTitle({
+										title: '验证成功正在跳转',
+										onSuccess: function(data) {
+											window.location = "${ctx}/my";
+										},
+										onFail: function(err) {
+											log.e(JSON.stringify(err));
+										}
+									});
+								} else {
+									dd.biz.navigation.setTitle({
+										title: '绑定平台账户',
+										onSuccess: function(data) {},
+										onFail: function(err) {
+											log.e(JSON.stringify(err));
+										}
+									});
+									DingUserId = result.dinguserid;
+
+									$(".authlogin").hide();
+									$(".signin").show();
+								}
+
+							} else {
+								dd.device.notification.alert({
+									message: result.messages[0],
+									title: "提示",
+									buttonName: "收到",
+									onSuccess: function() {},
+									onFail: function(err) {}
+								});
+
+								$(".authlogin").hide();
+								$(".signin").show();
+							}
+
+						}, "json").error(function() {
+							dd.device.notification.alert({
+								message: "网络异常,请稍后操作",
+								title: "提示",
+								buttonName: "收到",
+								onSuccess: function() {},
+								onFail: function(err) {}
+							});
+
+							$(".authlogin").hide();
+							$(".signin").show();
+
+						});
+
+						/*{
+						    code: 'hYLK98jkf0m' //string authCode
+						}*/
+					},
+					onFail: function(err) {}
+
+				});
+
+			});
+		</script>
+	</body>
+
+</html>
+
+[/#escape]

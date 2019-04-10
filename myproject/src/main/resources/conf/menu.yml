@@ -1,0 +1,67 @@
+#系统管理
+100:
+  name: navigation.system
+  icon: fa fa-cogs
+  perms: nav_system
+
+#用户管理
+100-100:
+  name: user.management
+  url: core/user/list.do
+  perms: core:user:list
+  ops: 
+    - create@core:user:create
+    - copy@core:user:copy
+    - edit@core:user:edit
+    - save@core:user:save
+    - update@core:user:update
+    - delete@core:user:delete
+    - importexcel@core:user:importexcel    
+    - user.deletePassword@core:user:delete_password
+    - user.check@core:user:check
+    - user.lock@core:user:lock
+    - user.unlock@core:user:unlock
+    
+#角色管理组
+100-200:
+  name: role.management
+  url: core/role/list.do
+  perms: core:role:list
+  ops:
+    - create@core:role:create
+    - copy@core:role:copy
+    - edit@core:role:edit
+    - save@core:role:save
+    - update@core:role:update
+    - delete@core:role:delete
+        
+#日志管理
+100-400:
+  name: log.management
+  perms: core:log
+  ops: 
+     
+#登录日志
+100-400-100:
+  name: loginLog.management
+  url: core/login_log/list.do
+  perms: core:login_logg:list
+  ops:
+    - view@core:login_log:view
+    - delete@core:login_log:delete
+ 
+#操作日志   
+100-400-200:
+  name: operationLog.management
+  url: core/operation_log/list.do
+  perms: core:operation_log:list
+  ops:
+    - view@core:operation_log:view
+    - delete@core:operation_log:delete
+
+
+      
+
+    
+
+    

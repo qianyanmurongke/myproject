@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:repository="http://www.springframework.org/schema/data/repository"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-lazy-init="true">
+
+	<bean id="htmlDao" class="com.course.core.html.HtmlDaoImpl" />
+	<bean id="infoFulltextDao" class="com.course.core.fulltext.InfoFulltextDaoImpl" />
+	<bean id="sqlDao" class="com.course.core.repository.impl.SQLDaoImpl" />
+
+	<bean id="infoFulltextService" class="com.course.core.fulltext.InfoFulltextServiceImpl" />
+	<bean id="infoFulltextGenerator" class="com.course.core.fulltext.InfoFulltextGeneratorImpl" />
+	<bean id="infoFulltextListener" class="com.course.core.fulltext.InfoFulltextListener" />
+	<bean id="htmlService" class="com.course.core.html.HtmlServiceImpl" />
+	<bean id="htmlGenerator" class="com.course.core.html.HtmlGeneratorImpl" />
+	
+	
+  	<bean id="infopublishtask" class="com.course.core.task.InfoPublishTaskImpl"/>
+</beans>

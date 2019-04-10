@@ -1,0 +1,24 @@
+[#escape x as (x)!?html] 
+[#if (pagedList.content?size)<=0] 
+<img src="_files/img/nothing.png" style="width: 100%;margin-top: 50px;" /> 
+
+[/#if]
+[#list pagedList.content as bean]
+<li>
+	<h2>${bean.doorName}</h2> [#if bean.online==0]
+	<p>关闭</p>
+	<img src="_files/img/outline.png"> [#else] [#if bean.status==0]
+	<p>关闭</p>
+	<img src="_files/img/suo.png">
+	<div class="kai" data-id="${bean.id}" data-lockaddr="${bean.pkid}"></div>
+	[#else]
+	<p>常开</p>
+	<img src="_files/img/suo1.png">
+	<div class="guan" data-id="${bean.id}" data-lockaddr="${bean.pkid}"></div>
+	[/#if] [/#if]
+</li>
+[/#list]
+<script>
+	totalpages = "${pagedList.totalPages}";
+</script>
+[/#escape]

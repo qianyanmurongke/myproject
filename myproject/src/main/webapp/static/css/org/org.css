@@ -1,0 +1,94 @@
+body, html { font-size: 100%;}
+body, ul, ol, li, p, form, fieldset, table, td, img, div, tr { padding:0;}
+li {list-style-type:none;}
+img {border:0 none;}
+a {}
+
+
+input, select {font-size:16px; vertical-align:middle;}
+
+
+
+.clearfix{clear: both}
+
+
+
+.top{
+	width: 90%;
+	margin: auto;
+	border-bottom: 1px solid #8f8f8f;
+	padding-top: 10px;
+}
+.logo{
+	float: left;
+}
+.l-left{
+	float: left;
+	width: 96px;
+
+}
+.l-left img{
+	width: 300px;width: 300px;
+}
+.l-right{
+	float: left;
+	padding-left: 230px;
+}
+.l-right h2{
+	color: #000;
+	font-size: 80px;
+	padding-top: 60px;   
+	
+}
+.l-right p{
+	color: #666;
+	font-size: 40px;
+}
+
+.modify{
+	float: right;
+	width: 100px;
+	height: 40px; 
+	border-radius: 22px;
+	border: 1px solid #ccc;
+	text-align: center;
+	line-height: 40px;
+	font-size: 16px;
+	color: #000;
+	margin-top: 26px;
+	cursor: pointer;
+}
+
+.information{
+	width: 90%;
+	margin: auto;
+	margin-top: 40px;
+}
+.information li{
+	width: 100%;
+	background: #fff;
+	height: 53px;
+	border-radius: 10px;
+   box-shadow: 0px 2px 10px 0px rgba(4, 37, 36, 0.14);
+	margin-bottom: 20px;
+}
+
+.information li h2{
+	float: left;
+	color: #000;
+	font-weight: normal;
+	line-height: 53px;
+	padding-left: 40px;
+	margin-top: 0px;
+    font-size: 20px;
+	
+}
+
+.information li p{
+	float: left;
+	color: #000;
+	line-height: 53px;
+	
+}
+
+

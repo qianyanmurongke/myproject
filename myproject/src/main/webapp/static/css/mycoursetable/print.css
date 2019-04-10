@@ -1,0 +1,74 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "微软雅黑";
+}
+
+table {
+	margin: 0px;
+	width: auto;
+	border-left: 1px solid #00abeb;
+	border-bottom: 1px double #00abeb;
+}
+
+caption {
+	border-right: 1px solid #00abeb;
+	border-top: 1px solid #00abeb;
+	border-left: 1px solid #00abeb;
+	padding: 0px 0 0px 0;
+	background-color: #d9f3fd;
+}
+
+thead tr th {
+	padding: 15px 0 15px 0;
+	background-color: #d9f3fd;
+	border-bottom: 1px double #00abeb;
+	color: #0081c2;
+	text-align: center;
+}
+
+tbody tr {
+	text-align: center;
+}
+
+tfoot tr td {
+	padding: 0px 0 0px 0px;
+	background-color: #d9f3fd;
+	color: #ffffff;
+	text-align: center;
+}
+
+th,
+td {
+	border-right: 1px solid #00abeb;
+	border-top: 1px solid #00abeb;
+	text-align: center;
+	width: 200px;
+}
+
+.firstcol {
+	background-color: #d9f3fd;
+}
+
+.topline2px td {
+	border-top: 2px double #00abeb;
+}
+
+.bi {
+	width: 26px;
+}
+
+th[class=first]:before {
+	content: "";
+	position: absolute;
+	width: 1px;
+	height: 209px;
+	/*这里需要自己调整，根据td的宽度和高度*/
+	top: 0;
+	left: 10;
+	background-color: #00abeb;
+	display: block;
+	transform: rotate(-72.7deg);
+	/*这里需要自己调整，根据线的位置*/
+	transform-origin: top;
+}
